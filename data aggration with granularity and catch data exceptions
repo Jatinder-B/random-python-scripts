@@ -1,0 +1,37 @@
+# https://stackoverflow.com/questions/61886016/sort-and-keep-count-of-data-in-python
+
+import time
+Data=  [{'second': 12, 'data': 1, 'hour': 21, 'minute': 27},
+   {'second': 12, 'data': 2, 'hour': 21, 'minute': 50},
+   {'second': 12, 'data': 1, 'hour': 22, 'minute': 28},
+    {'second': 12, 'data': 1, 'hour': 23, 'minute': 28},
+    {'second': 12, 'data': 'stre', 'hour': 21, 'minute': 28},
+        {'second': 12, 'data': 'stre', 'hour': 21, 'minute': 28},
+    {'second': 12, 'data': 'str', 'hour': 21, 'minute': 28}]
+
+#21:15-21:30 IllegalAgrumentsException 1,
+o_data =[]
+o_time = []
+ot_time = []
+agg_data = 0
+ind = 0
+dataset = {}
+except_data = {}
+interval = 900
+for i in Data:
+    time_in_data = '2020-05-17 {}:{}:{}'.format(i['hour'],i['minute'],i['second'])
+    time_str =time.strptime(time_in_data,"%Y-%m-%d %H:%M:%S")
+    try:
+        data_value = int(i['data'])
+        hh=time.mktime(time_str,)
+        ot_time.append(hh)
+        if hh<ot_time[ind]+interval:
+            agg_data = agg_data + data_value
+        else:
+            o_data.append(agg_data)
+            o_time.append(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime( hh)))
+            ind +=1
+            dataset[o_time[-1]] = o_data[-1]
+    except:
+        except_data[i['data']] = 1 if i['data'] not in except_data else except_data[i['data']] + 1 
+print(dataset, except_data)
